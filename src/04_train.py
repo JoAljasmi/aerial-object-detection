@@ -30,8 +30,8 @@ import argparse
 
 def main():
     ap = argparse.ArgumentParser(description="Train YOLOv8-OBB on DOTA.")
-    ap.add_argument("--data", default="DOTA-yolo/dota-obb.yaml",
-                    help="dataset YAML from Stage 3")
+    ap.add_argument("--data", default="data/yolo/dota-obb.yaml",
+                    help="dataset YAML from Stage 3 (new layout: data/yolo/)")
     # yolov8n-obb is the nano model: fastest, lowest VRAM, good first baseline.
     # It is PRETRAINED on DOTAv1, so this is fine-tuning - it starts already
     # knowing aerial objects and converges faster. Scale up to -s/-m later for
