@@ -1,0 +1,14 @@
+# Core detection
+ultralytics>=8.3.0      # YOLO + OBB; also pulls torch/torchvision + opencv
+ 
+# Data prep / geometry (Stage 2 tiling)
+shapely>=2.0.0          # polygon intersection for clipping boxes to patches
+opencv-python>=4.8.0    # minAreaRect for re-fitting clipped OBBs (also via ultralytics)
+ 
+# Viz / exploration
+pillow>=10.0.0
+numpy>=1.24.0
+matplotlib>=3.7.0       # metrics / PR curves later
+ 
+# Notebook workflow (exploration stages)
+jupyterlab>=4.0.0
