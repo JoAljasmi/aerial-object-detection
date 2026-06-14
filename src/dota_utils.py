@@ -1,13 +1,4 @@
-"""
-dota_utils.py - shared logic imported by BOTH the exploration notebooks and the
-batch scripts. One source of truth: fix a bug here, both fix.
 
-Grouped by concern:
-  - I/O + classes : parse_dota_label, DOTA_CLASSES
-  - drawing       : class_color, draw_obbs           (for inline viz / previews)
-  - stats         : obb_longest_side, image_label_stats
-  - tiling core   : window_starts, refit_obb, iter_tiles
-"""
 
 import os
 

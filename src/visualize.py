@@ -1,42 +1,4 @@
-"""
-Stage 1 - See the data.
 
-Before touching a model, you should understand exactly what DOTA gives you.
-This script parses DOTA's annotation format, draws the oriented bounding boxes
-on the image, and prints statistics that make the *tiling* problem (Stage 2)
-concrete: huge images, lots of tiny objects.
-
---------------------------------------------------------------------------
-DOTA-v1.0 annotation format
---------------------------------------------------------------------------
-Each image `P0001.png` has a label file `P0001.txt`. The first two lines are
-metadata (present in the original release, sometimes absent in re-packaged
-versions, so we skip them defensively):
-
-    imagesource:GoogleEarth
-    gsd:0.146                      # ground sample distance, metres/pixel
-
-Every following line is ONE object, an oriented box given as 4 corner points
-in clockwise order, plus a class name and a 'difficult' flag (0/1):
-
-    x1 y1 x2 y2 x3 y3 x4 y4 class_name difficult
-
-Key point: the box is a *quadrilateral* (8 numbers), NOT the (x, y, w, h)
-you see in COCO. That is because a plane or ship photographed from above sits
-at an arbitrary angle, and an axis-aligned box would be mostly empty space /
-would overlap its neighbours. This is the whole reason we use an OBB model.
-
-Usage:
-    # one image + its label
-    python scripts/01_visualize_dota.py --image path/to/P0001.png \
-                                        --label path/to/P0001.txt \
-                                        --out annotated.png
-
-    # or scan a folder pair and render the first N
-    python scripts/01_visualize_dota.py --images-dir DOTA/train/images \
-                                        --labels-dir DOTA/train/labelTxt \
-                                        --out-dir previews --num 5
-"""
 
 import argparse
 import colorsys

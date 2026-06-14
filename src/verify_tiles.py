@@ -1,14 +1,4 @@
-"""
-Stage 2 QA - verify tiled output before training on it.
 
-Reads an already-tiled directory (images/ + labelTxt/), prints summary stats,
-and renders a few random annotated patches so you can confirm the boxes still
-line up with objects. ALWAYS run this after tiling and actually look at the
-previews - it's the cheapest insurance against training on broken labels.
-
-Usage:
-    python scripts/verify_tiles.py --tiled-dir DOTA-tiled/train --num 6
-"""
 
 import argparse
 import os

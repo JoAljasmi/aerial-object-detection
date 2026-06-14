@@ -1,37 +1,3 @@
-"""
-Stage 3 - Convert tiled DOTA patches to YOLO-OBB format and build a
-train/val/test split that is SAFE from data leakage.
-
-Two jobs:
-  1. CONVERT each label line
-        x1 y1 x2 y2 x3 y3 x4 y4 class_name difficult   (pixels, name)
-     into YOLO-OBB
-        class_index x1 y1 x2 y2 x3 y3 x4 y4             (normalized 0-1, index)
-
-  2. SPLIT by SOURCE IMAGE, not by patch. Tiling made many overlapping patches
-     per original image; if two patches from the same source land on opposite
-     sides of the train/test line, the model sees test content while training
-     and your mAP is inflated and meaningless. We group patches by their source
-     stem (the 'P0042' in 'P0042__1024__0_0.png') and put each whole group in
-     exactly one split.
-
-Output (the standard Ultralytics layout, plus a dataset YAML):
-    DOTA-yolo/
-      images/{train,val,test}/*.png
-      labels/{train,val,test}/*.txt
-      dota-obb.yaml
-
-By default it COPIES patches (non-destructive - your DOTA-tiled/ stays intact,
-so you can re-split later). If disk is tight, pass --move instead (patches are
-relocated; you'd re-tile to redo the split).
-
-Usage:
-    python scripts/03_to_yolo_split.py \
-        --tiled-dirs DOTA-tiled/train DOTA-tiled/val \
-        --out-dir DOTA-yolo \
-        --train 0.8 --val 0.1 --test 0.1 --seed 42
-"""
-
 import argparse
 import os
 import random
@@ -93,8 +59,7 @@ def main():
     assert abs(args.train + args.val + args.test - 1.0) < 1e-6, \
         "train+val+test must sum to 1.0"
 
-    # --- gather every patch, grouped by its SOURCE image -----------------
-    # source_stem -> list of (img_path, lbl_path)
+  
     groups = defaultdict(list)
     for tdir in args.tiled_dirs:
         idir, ldir = os.path.join(tdir, "images"), os.path.join(tdir, "labelTxt")

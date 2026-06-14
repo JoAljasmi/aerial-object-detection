@@ -1,19 +1,3 @@
-"""
-Stage 2 - Tiling, BATCH runner.
-
-This is the thin command-line wrapper. All the actual geometry lives in
-dota_utils.py (so the notebook and this script share one implementation). Use
-this to tile the whole dataset; use notebooks/01_explore_data.ipynb to
-understand/inspect tiling on a single image interactively.
-
-See dota_utils.iter_tiles for the boundary handling (overlap, iof drop, OBB
-re-fit, coordinate translation, offset-encoded filenames).
-
-Usage:
-    python scripts/02_tile_dota.py \
-        --images-dir DOTA/train/images --labels-dir DOTA/train/labelTxt \
-        --out-dir DOTA-tiled/train --patch 1024 --gap 200 --preview 3
-"""
 
 import argparse
 import os

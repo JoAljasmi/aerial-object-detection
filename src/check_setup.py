@@ -1,14 +1,4 @@
-"""
-Stage 0 - Environment check.
 
-Run this FIRST. It confirms three things before you waste time on data:
-  1. PyTorch is installed and can see your NVIDIA GPU.
-  2. Ultralytics is installed.
-  3. The GPU has enough memory to train comfortably.
-
-Usage:
-    python check_setup.py
-"""
 
 import sys
 
