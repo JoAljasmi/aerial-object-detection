@@ -1,50 +1,33 @@
-
+"""Check the training environment: PyTorch build, CUDA/GPU, and Ultralytics."""
 
 import sys
 
 
-def main() -> None:
-    ok = True
-
-    # --- PyTorch + CUDA -------------------------------------------------
+def main():
     try:
         import torch
     except ImportError:
-        print("[FAIL] torch is not installed. Run: pip install ultralytics")
-        sys.exit(1)
+        sys.exit("torch not installed. Run: pip install ultralytics")
 
-    print(f"torch version      : {torch.__version__}")
-    cuda_ok = torch.cuda.is_available()
-    print(f"CUDA available     : {cuda_ok}")
+    print(f"torch        : {torch.__version__}")
+    cuda = torch.cuda.is_available()
+    print(f"CUDA         : {cuda}")
 
-    if cuda_ok:
-        # torch.version.cuda is the CUDA toolkit the wheel was built against.
-        print(f"CUDA (torch build) : {torch.version.cuda}")
+    if cuda:
+        print(f"CUDA (build) : {torch.version.cuda}")
         for i in range(torch.cuda.device_count()):
-            name = torch.cuda.get_device_name(i)
-            total_gb = torch.cuda.get_device_properties(i).total_memory / 1024**3
-            print(f"  GPU {i}            : {name} ({total_gb:.1f} GB)")
-            if total_gb < 6:
-                print("    [WARN] <6 GB VRAM: use the 'n' (nano) model and a small "
-                      "batch size, or expect out-of-memory errors.")
+            props = torch.cuda.get_device_properties(i)
+            print(f"GPU {i}        : {props.name} ({props.total_memory / 1024**3:.1f} GB)")
     else:
-        ok = False
-        print("[FAIL] torch cannot see a GPU. You can still run on CPU but training "
-              "will be painfully slow. To fix, install a CUDA torch build, e.g.:")
-        print("       pip install torch torchvision "
-              "--index-url https://download.pytorch.org/whl/cu121")
+        print("No GPU visible to torch. For an NVIDIA GPU install a CUDA build, e.g.:")
+        print("  pip install torch torchvision "
+              "--index-url https://download.pytorch.org/whl/cu128")
 
-    # --- Ultralytics ----------------------------------------------------
     try:
         import ultralytics
-        print(f"ultralytics version: {ultralytics.__version__}")
+        print(f"ultralytics  : {ultralytics.__version__}")
     except ImportError:
-        ok = False
-        print("[FAIL] ultralytics is not installed. Run: pip install ultralytics")
-
-    print()
-    print("All good - ready for Stage 1." if ok
-          else "Fix the [FAIL] items above before continuing.")
+        print("ultralytics not installed. Run: pip install ultralytics")
 
 
 if __name__ == "__main__":
